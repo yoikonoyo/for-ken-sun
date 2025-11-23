@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Secret Card</title>
 <style>
   body {
@@ -102,7 +102,7 @@
 <h1>Happy Birthday!</h1>
 
 <div class="small-note">
-  Please keep this secret preview until the real card arrives. Enjoy!
+  Please wait until the physical card arrives — this is your little preview.
 </div>
 
 <div class="card-container">
@@ -115,7 +115,7 @@
       <br />
       <button onclick="revealCard()">Reveal</button>
       <div style="font-size:0.8rem; margin-top:8px; color:#777;">
-        Please enter the passcode Amikoro told you.
+        Enter the passcode Amikoro shared with you.
       </div>
     </div>
   </div>
@@ -123,8 +123,9 @@
 
 <button id="hideBtn" style="margin-top:18px; display:none;" onclick="hideCard()">Hide again</button>
 
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
-const CORRECT = "2025k23"; // ← お好きなパスコードに変更できます
+const CORRECT = "2025k23";
 
 function revealCard() {
   const v = document.getElementById("pw").value;
@@ -143,19 +144,19 @@ function hideCard() {
   veil.classList.remove("hidden");
 }
 
-// ------- Confetti (every time Reveal is pressed) -------
 function launchConfetti() {
-  const duration = 1200;
-  const end = Date.now() + duration;
-  (function frame() {
-    confetti({ particleCount: 7, spread: 55, origin: { y: 0.2 } });
-    if (Date.now() < end) requestAnimationFrame(frame);
-  })();
-}
+  const duration = 2000;
+  const animationEnd = Date.now() + duration;
+  const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
 
-// Lightweight confetti
-// (minified library)
-!function(){var t=function(t){return null!=t},e=function(t){return t instanceof Array?"array":"object"==typeof t?"object":"primitive"};function n(t,e){return Math.floor(Math.random()*(e-t+1))+t}window.confetti=function(o){var i=document.createElement("div");i.style.position="fixed",i.style.zIndex=9999,i.style.pointerEvents="none",i.style.top="0",i.style.left="0",document.body.appendChild(i);var r=[],l=o.particleCount||30,a=o.spread||60,s=o.startVelocity||15,c=o.origin||{x:.5,y:.5};for(var d=0;d<l;d++)r.push({x:c.x*window.innerWidth,y:c.y*window.innerHeight,angle:n(-a/2,a/2),velocity:n(s/2,s)});!function o(){i.innerHTML="",r.forEach((function(t){t.x+=Math.cos(t.angle)*t.velocity,t.y+=Math.sin(t.angle)*t.velocity,t.velocity*=.98;var e=document.createElement("div");e.style.position="absolute",e.style.width="6px",e.style.height="6px",e.style.background="hsl("+n(0,360)+",100%,50%)",e.style.left=t.x+"px",e.style.top=t.y+"px",i.appendChild(e)})),r=r.filter((function(t){return t.velocity>.5})),r.length?requestAnimationFrame(o):document.body.removeChild(i)}()}();}();
+  function frame() {
+    confetti(Object.assign({}, defaults, { particleCount: 5, origin: { x: Math.random(), y: Math.random() - 0.2 } }));
+    if (Date.now() < animationEnd) {
+      requestAnimationFrame(frame);
+    }
+  }
+  frame();
+}
 </script>
 
 </body>
